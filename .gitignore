@@ -1,0 +1,15 @@
+# Ignore the virtual environment inside the app directory
+app/venv/
+
+# Ignore general Python virtual environments (in case venv is placed elsewhere)
+venv/
+.env/
+*.env
+*.venv
+
+# Ignore IDE and OS-specific files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
