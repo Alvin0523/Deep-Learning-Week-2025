@@ -1,0 +1,11 @@
+python -m venv venv
+
+# Set up virtual environment first
+venv\Scripts\activate (Window)
+source venv/bin/activate (MacOS)
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run
+streamlit run app.py

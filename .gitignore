@@ -1,15 +1,29 @@
-# Ignore the virtual environment inside the app directory
-app/venv/
-
-# Ignore general Python virtual environments (in case venv is placed elsewhere)
+# === Virtual Environments ===
+app/venv/          # Ignore virtual environment inside the app directory
 venv/
 .env/
 *.env
 *.venv
+.conda/
 
-# Ignore IDE and OS-specific files
-.vscode/
-.idea/
-*.swp
-.DS_Store
-Thumbs.db
+# === Python Cache & Compiled Files ===
+__pycache__/
+*.py[cod]
+*$py.class
+.mypy_cache/
+.pytest_cache/
+ipynb_checkpoints/
+
+# === Logs & Databases ===
+*.log
+*.sqlite3
+
+# === IDE & Editor Files ===
+.vscode/           # VSCode settings
+.idea/             # JetBrains (PyCharm, IntelliJ) settings
+*.swp              # Swap files (Vim, etc.)
+*.swo              # Vim swap file
+
+# === OS-Specific Files ===
+.DS_Store          # macOS system file
+Thumbs.db          # Windows system file
