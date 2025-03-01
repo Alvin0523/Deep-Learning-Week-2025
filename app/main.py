@@ -7,58 +7,17 @@ import voice
 import os
 import time
 import sms
+from Pages import Settings
+
 
 torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)]
 
 # Streamlit App Title
-st.title("YOLOv8 Live Object Detection")
-
-# Sidebar Start Button
-start_button = st.sidebar.button("Start Webcam")
+st.title("Safe Vision")
 
 # Sidebar Start Button
 st.sidebar.title("🔧 Settings")
 start_button = st.sidebar.button("Start Webcam")
-
-admin = "Dana"
-user = "Mommy"
-
-# 1️⃣ Personal Information
-full_name = st.sidebar.text_input("Full Name")
-age = st.sidebar.number_input("Age", min_value=0, max_value=120, step=1)
-
-# 2️⃣ Emergency Contact
-st.sidebar.subheader("📞 Emergency Contact")
-emergency_contact_name = st.sidebar.text_input("Contact Name")
-emergency_contact_number = st.sidebar.text_input("Phone Number")
-
-# 3️⃣ Medical Information
-st.sidebar.subheader("⚕️ Medical Information")
-blood_type = st.sidebar.selectbox("Blood Type", ["Unknown", "O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"])
-medical_conditions = st.sidebar.text_area("Existing Medical Conditions (e.g., Diabetes, Hypertension)")
-medications = st.sidebar.text_area("Current Medications (Name & Dosage)")
-allergies = st.sidebar.text_area("Allergies (Medications, Food, Environmental)")
-dnr_status = st.sidebar.radio("Do-Not-Resuscitate (DNR) Order", ["No", "Yes"])
-
-
-
-def generate_emergency_message():
-    return f"""
-🚨 **EMERGENCY ALERT** 🚨
-
-👤 **Patient:** {full_name} (Age: {age})
-🩸 Blood Type: {blood_type}
-⚕️ Medical Conditions: {medical_conditions if medical_conditions else 'None'}
-💊 Medications: {medications if medications else 'None'}
-🚨 Allergies: {allergies if allergies else 'None'}
-📜 DNR Status: {dnr_status}
-🦽
-
-📞 Emergency Contact: {emergency_contact_name} ({emergency_contact_number})
-
-🆘 Immediate action may be required!
-"""
-
 
 # Video frame placeholder
 frame_placeholder = st.empty()
@@ -68,6 +27,7 @@ message_1 = st.empty()
 message_2 = st.empty()
 
 if start_button:
+
     st.sidebar.write("Webcam feed started. Press 'Stop' to exit.")
 
     # Open webcam once (Avoid reinitializing in every frame)
@@ -108,18 +68,18 @@ if start_button:
 
             # Case 1: User needs help
             if "help" in result.lower():
-                tele.send_telegram_alert(user, f"{user} says {result}")
-                message_2.success(f"I will inform {admin} and ask for help")
+                tele.send_telegram_alert(f"{Settings.full_name} says {Settings.result}")
+                message_2.success(f"I will inform {Settings.emergency_contact_name} and ask for help")
 
             # Case 2: User is okay
-            elif "i am okay" in result.lower():
-                tele.send_telegram_alert(user, f"{user} says {result}")
-                message_2.success(f"I will inform {admin} and standby")
+            elif "okay" in result.lower():
+                tele.send_telegram_alert(f"{Settings.full_name} says {Settings.result}")
+                message_2.success(f"I will inform {Settings.emergency_contact_name} and standby")
 
             else:
                 message_2.success("No valid response detected. Waiting 10 seconds before calling an ambulance...")
                 time.sleep(10)  # Wait for 10 seconds
-                sms.emergency()
+                sms.emergency(e_message)
 
         # **WAIT 5 SECONDS THEN CLEAR MESSAGES**
         time.sleep(5)

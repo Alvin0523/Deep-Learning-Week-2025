@@ -6,7 +6,7 @@ AUTH_TOKEN = "a463ba3cdca665fd488df4f2b5170f99"
 TWILIO_PHONE_NUMBER = "+17177947365"  # Example: "+14155238886"
 TO_PHONE_NUMBER = "+6588252349"  # Singapore number with +65 prefix
 
-def send_emergency_sms(message="🚨 Emergency Alert: Immediate assistance needed!"):
+def emergency(message="🚨 Emergency Alert: Immediate assistance needed!"):
     """
     Sends an SMS alert via Twilio.
     
