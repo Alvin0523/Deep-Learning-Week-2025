@@ -1,9 +1,12 @@
 import streamlit as st
 import cv2
 import vision
+import tele
 import pyttsx3
 from whisper_mic import WhisperMic
 
+admin = "Dana"
+user = "Mommy"
 
 # Streamlit App Title
 st.title("YOLOv8 Live Object Detection")
@@ -75,28 +78,22 @@ if start_button:
             result = mic.listen()
             print(f"You said: {result}")
             
-            # case 1: user is not okay - no reply or help needed
-            if "no" in result.lower() or "help" in result.lower():
+            # case 1: user is not okay -  help needed
+            if "help" in result.lower():
                 engine.say("I will call for help")
                 engine.runAndWait()
+                tele.send_telegram_alert(user,f"{user} says {result}")
                 # insert the string matching to call for help
             
-            # case 2: user is okay - no reply or help needed
-            elif "yes" in result.lower() or "okay" in result.lower():
-                engine.say("I will standby")
+            # case 2: user is okay - no help needed
+            elif "i am okay" in result.lower():
+                engine.say(f"I will inform {admin}, and standby")
                 engine.runAndWait()
+                tele.send_telegram_alert(user,f"{user} says {result}")
                 # insert the string matching to standby
-            
-            
-            
-            
-            # insert the string matching to check for the trigger phrase
-            
-            
+                   
         else:
             detection_placeholder.empty()  # Clear the placeholder if no object is detected
             
-        
-
     cap.release()
     st.sidebar.write("Webcam stopped.")
