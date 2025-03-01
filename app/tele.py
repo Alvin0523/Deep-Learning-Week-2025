@@ -18,11 +18,3 @@ def send_telegram_alert(someone, message_text):
     }
     
     response = requests.post(url, data=data)
-    
-    if response.status_code == 200:
-        print("📢 Telegram alert sent to Notification topic!")
-    else:
-        print(f"❌ Failed to send alert. Error: {response.json()}")
-
-# Test Function
-send_telegram_alert("John Doe", "I need help, I just fell!")

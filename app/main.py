@@ -3,6 +3,11 @@ import cv2
 import vision
 import tele
 import voice
+import os
+import torch
+import streamlit as st
+
+torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)] 
 
 admin = "Dana"
 user = "Mommy"
@@ -49,21 +54,23 @@ if start_button:
             detection_placeholder.success("🚨 Object Detected!")
             # asked the user if they are okay using text to speech
             voice.say("Hello, Are you okay?")
+            detection_placeholder.success("Hello, Are you okay?")
             voice.run()
-            result = voice.listen
+            detection_placeholder.success("Listening...")
+            result = voice.mic.listen()
             print(f"You said: {result}")
             
             # case 1: user is not okay -  help needed
             if "help" in result.lower():
                 voice.say(f"I will inform {admin}, and ask for help")
-                voice.run
+                voice.run()
                 tele.send_telegram_alert(user,f"{user} says {result}")
                 # insert the string matching to call for help
             
             # case 2: user is okay - no help needed
             elif "i am okay" in result.lower():
                 voice.say(f"I will inform {admin}, and standby")
-                voice.runAndWait()
+                voice.run()
                 tele.send_telegram_alert(user,f"{user} says {result}")
                 # insert the string matching to standby
 
