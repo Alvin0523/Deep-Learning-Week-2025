@@ -68,11 +68,27 @@ if start_button:
         if detected:
             detection_placeholder.success("🚨 Object Detected!")
             # asked the user if they are okay using text to speech
-            engine.say("Are you okay?")
+            engine.say("Hello, Are you okay?")
             engine.runAndWait()
             #listen for user to respond
             # insert whisper activation here
             result = mic.listen()
+            print(f"You said: {result}")
+            
+            # case 1: user is not okay - no reply or help needed
+            if "no" in result.lower() or "help" in result.lower():
+                engine.say("I will call for help")
+                engine.runAndWait()
+                # insert the string matching to call for help
+            
+            # case 2: user is okay - no reply or help needed
+            elif "yes" in result.lower() or "okay" in result.lower():
+                engine.say("I will standby")
+                engine.runAndWait()
+                # insert the string matching to standby
+            
+            
+            
             
             # insert the string matching to check for the trigger phrase
             
