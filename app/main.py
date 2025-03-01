@@ -79,7 +79,7 @@ if start_button:
             else:
                 message_2.success("No valid response detected. Waiting 10 seconds before calling an ambulance...")
                 time.sleep(10)  # Wait for 10 seconds
-                sms.emergency(e_message)
+                sms.emergency()
 
         # **WAIT 5 SECONDS THEN CLEAR MESSAGES**
         time.sleep(5)
