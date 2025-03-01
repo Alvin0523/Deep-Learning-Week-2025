@@ -59,7 +59,6 @@ def generate_emergency_message():
 🆘 Immediate action may be required!
 """
 
-# Video frame placeholder
 
 # Video frame placeholder
 frame_placeholder = st.empty()
