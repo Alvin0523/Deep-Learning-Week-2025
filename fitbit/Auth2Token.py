@@ -7,7 +7,7 @@ import requests
 CLIENT_ID = '23Q36Q'
 CLIENT_SECRET = '9f204f546d248fb638926af97aaf0993'
 REDIRECT_URI = 'https://427d-155-69-193-63.ngrok-free.app'
-authorization_code = '3144e4fd06f2a9703787a9df6e5a8fd1283f873e'
+authorization_code = 'a47976870156a0a3960e6a46938fd2b2215f2fd7'
 
 token_url = 'https://api.fitbit.com/oauth2/token'
 
