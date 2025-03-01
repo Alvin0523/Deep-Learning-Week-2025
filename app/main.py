@@ -6,11 +6,9 @@ import tele
 import voice
 import os
 import time
+import sms
 
 torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)]
-
-admin = "Dana"
-user = "Mommy"
 
 # Streamlit App Title
 st.title("YOLOv8 Live Object Detection")
@@ -21,6 +19,9 @@ start_button = st.sidebar.button("Start Webcam")
 # Sidebar Start Button
 st.sidebar.title("🔧 Settings")
 start_button = st.sidebar.button("Start Webcam")
+
+admin = "Dana"
+user = "Mommy"
 
 # 1️⃣ Personal Information
 full_name = st.sidebar.text_input("Full Name")
@@ -119,7 +120,7 @@ if start_button:
             else:
                 message_2.success("No valid response detected. Waiting 10 seconds before calling an ambulance...")
                 time.sleep(10)  # Wait for 10 seconds
-                tele.call_ambulance()
+                sms.emergency()
 
         # **WAIT 5 SECONDS THEN CLEAR MESSAGES**
         time.sleep(5)
