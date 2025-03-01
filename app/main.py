@@ -2,8 +2,7 @@ import streamlit as st
 import cv2
 import vision
 import tele
-import pyttsx3
-from whisper_mic import WhisperMic
+import whisper
 
 admin = "Dana"
 user = "Mommy"
@@ -19,28 +18,6 @@ frame_placeholder = st.empty()
 
 # Detection placeholder (for activating something)
 detection_placeholder = st.empty()
-
-# Initialize WhisperMic with desired settings
-mic = WhisperMic(
-        model="tiny",
-        english=True,
-        verbose=False,
-        energy=100,
-        pause=0.8,
-        dynamic_energy=False,
-        save_file=False,
-        device="cuda",   # or "cpu"/"mps" if that's what you want
-        mic_index=None,
-        implementation="whisper",
-        hallucinate_threshold=400
-    )
-
-#init the text to speech engine
-engine = pyttsx3.init()
-
-#text to speech settings
-engine.setProperty('rate', 100)     # Speed percent (can go over 100)
-engine.setProperty('volume', 1.0)  # Volume 0-1
 
 if start_button:
     st.sidebar.write("Webcam feed started. Press 'Stop' to exit.")
@@ -71,26 +48,27 @@ if start_button:
         if detected:
             detection_placeholder.success("🚨 Object Detected!")
             # asked the user if they are okay using text to speech
-            engine.say("Hello, Are you okay?")
-            engine.runAndWait()
-            #listen for user to respond
-            # insert whisper activation here
-            result = mic.listen()
+            whisper.say("Hello, Are you okay?")
+            whisper.run()
+            result = whisper.listen
             print(f"You said: {result}")
             
             # case 1: user is not okay -  help needed
             if "help" in result.lower():
-                engine.say("I will call for help")
-                engine.runAndWait()
+                whisper.say(f"I will inform {admin}, and ask for help")
+                whisper.run
                 tele.send_telegram_alert(user,f"{user} says {result}")
                 # insert the string matching to call for help
             
             # case 2: user is okay - no help needed
             elif "i am okay" in result.lower():
-                engine.say(f"I will inform {admin}, and standby")
-                engine.runAndWait()
+                whisper.say(f"I will inform {admin}, and standby")
+                whisper.runAndWait()
                 tele.send_telegram_alert(user,f"{user} says {result}")
                 # insert the string matching to standby
+
+            else: 
+                whisper.say(f"Be careful")
                    
         else:
             detection_placeholder.empty()  # Clear the placeholder if no object is detected
