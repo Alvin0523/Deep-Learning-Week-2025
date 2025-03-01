@@ -1,6 +1,9 @@
 import streamlit as st
 import cv2
 import vision
+import pyttsx3
+from whisper_mic import WhisperMic
+
 
 # Streamlit App Title
 st.title("YOLOv8 Live Object Detection")
@@ -13,6 +16,28 @@ frame_placeholder = st.empty()
 
 # Detection placeholder (for activating something)
 detection_placeholder = st.empty()
+
+# Initialize WhisperMic with desired settings
+mic = WhisperMic(
+        model="tiny",
+        english=True,
+        verbose=False,
+        energy=100,
+        pause=0.8,
+        dynamic_energy=False,
+        save_file=False,
+        device="cuda",   # or "cpu"/"mps" if that's what you want
+        mic_index=None,
+        implementation="whisper",
+        hallucinate_threshold=400
+    )
+
+#init the text to speech engine
+engine = pyttsx3.init()
+
+#text to speech settings
+engine.setProperty('rate', 100)     # Speed percent (can go over 100)
+engine.setProperty('volume', 1.0)  # Volume 0-1
 
 if start_button:
     st.sidebar.write("Webcam feed started. Press 'Stop' to exit.")
@@ -42,8 +67,20 @@ if start_button:
         # Activate something when an object is detected
         if detected:
             detection_placeholder.success("🚨 Object Detected!")
+            # asked the user if they are okay using text to speech
+            engine.say("Are you okay?")
+            engine.runAndWait()
+            #listen for user to respond
+            # insert whisper activation here
+            result = mic.listen()
+            
+            # insert the string matching to check for the trigger phrase
+            
+            
         else:
             detection_placeholder.empty()  # Clear the placeholder if no object is detected
+            
+        
 
     cap.release()
     st.sidebar.write("Webcam stopped.")

@@ -1,9 +1,15 @@
 import cv2
 import numpy as np
 from ultralytics import YOLO
+import os 
 
+# Get the absolute path to the directory where vision.py is located
+VISION_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Construct a path to the model folder, which is one level up from app/
+MODEL_PATH = os.path.join(VISION_DIR, "..", "model", "best.pt")
 # Load YOLOv8 model
-model = YOLO(r"C:\Users\alvin\OneDrive - Nanyang Technological University\Files\03_Work\05_Hackathon\Deep Learning Week 2025\model\best.pt")
+model = YOLO(MODEL_PATH)
 
 # Confidence threshold
 CONFIDENCE_THRESHOLD = 0.7
