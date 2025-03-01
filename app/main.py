@@ -1,13 +1,13 @@
 import streamlit as st
+import torch
 import cv2
 import vision
 import tele
 import voice
 import os
-import torch
-import streamlit as st
+import time
 
-torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)] 
+torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)]
 
 admin = "Dana"
 user = "Mommy"
@@ -22,7 +22,8 @@ start_button = st.sidebar.button("Start Webcam")
 frame_placeholder = st.empty()
 
 # Detection placeholder (for activating something)
-detection_placeholder = st.empty()
+message_1 = st.empty()
+message_2 = st.empty()
 
 if start_button:
     st.sidebar.write("Webcam feed started. Press 'Stop' to exit.")
@@ -51,34 +52,38 @@ if start_button:
 
         # Activate something when an object is detected
         if detected:
-            detection_placeholder.success("🚨 Object Detected!")
-            # asked the user if they are okay using text to speech
+            message_1.success("🚨 Fall Detected!")
+            time.sleep(0.5)
+            
+            # Ask the user if they are okay using text-to-speech
             voice.say("Hello, Are you okay?")
-            detection_placeholder.success("Hello, Are you okay?")
-            voice.run()
-            detection_placeholder.success("Listening...")
+            message_2.success("Hello, Are you okay?")
+            time.sleep(3.0)
+            
+            message_2.success("Listening...")
+            time.sleep(0.5)
             result = voice.mic.listen()
-            print(f"You said: {result}")
-            
-            # case 1: user is not okay -  help needed
-            if "help" in result.lower():
-                voice.say(f"I will inform {admin}, and ask for help")
-                voice.run()
-                tele.send_telegram_alert(user,f"{user} says {result}")
-                # insert the string matching to call for help
-            
-            # case 2: user is okay - no help needed
-            elif "i am okay" in result.lower():
-                voice.say(f"I will inform {admin}, and standby")
-                voice.run()
-                tele.send_telegram_alert(user,f"{user} says {result}")
-                # insert the string matching to standby
 
-            else: 
-                voice.say(f"Be careful")
-                   
+            # Case 1: User needs help
+            if "help" in result.lower():
+                tele.send_telegram_alert(user, f"{user} says {result}")
+                message_2.success(f"I will inform {admin} and ask for help")
+
+            # Case 2: User is okay
+            elif "i am okay" in result.lower():
+                tele.send_telegram_alert(user, f"{user} says {result}")
+                message_2.success(f"I will inform {admin} and standby")
+
+            else:
+                message_2.success("Be careful")
+
+            # **WAIT 5 SECONDS THEN CLEAR MESSAGES**
+            time.sleep(5)
+            message_1.empty()
+            message_2.empty()
+
         else:
-            detection_placeholder.empty()  # Clear the placeholder if no object is detected
-            
+            message_1.empty()  # Clear the placeholder if no object is detected
+
     cap.release()
     st.sidebar.write("Webcam stopped.")
