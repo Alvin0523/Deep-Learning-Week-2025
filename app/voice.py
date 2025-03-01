@@ -27,6 +27,8 @@ def say(message):
     engine.say(message)
 
 def run():
+    engine.stop()  # Ensure previous speech is stopped
+    print("stop")
     engine.runAndWait()
 
 def listen():
