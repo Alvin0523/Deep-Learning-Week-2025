@@ -5,6 +5,7 @@ venv/
 *.env
 *.venv
 .conda/
+*.test/
 
 # === Python Cache & Compiled Files ===
 __pycache__/
