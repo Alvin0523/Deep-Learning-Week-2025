@@ -75,15 +75,14 @@ if start_button:
                 message_2.success(f"I will inform {admin} and standby")
 
             else:
-                message_2.success("Be careful")
+                message_2.success("No valid response detected. Waiting 10 seconds before calling an ambulance...")
+                time.sleep(10)  # Wait for 10 seconds
+                tele.call_ambulance()
 
-            # **WAIT 5 SECONDS THEN CLEAR MESSAGES**
-            time.sleep(5)
-            message_1.empty()
-            message_2.empty()
-
-        else:
-            message_1.empty()  # Clear the placeholder if no object is detected
+        # **WAIT 5 SECONDS THEN CLEAR MESSAGES**
+        time.sleep(5)
+        message_1.empty()
+        message_2.empty()
 
     cap.release()
     st.sidebar.write("Webcam stopped.")

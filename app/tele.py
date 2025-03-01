@@ -18,3 +18,4 @@ def send_telegram_alert(someone, message_text):
     }
     
     response = requests.post(url, data=data)
+    
