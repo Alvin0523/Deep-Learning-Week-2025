@@ -7,8 +7,7 @@ import voice
 import os
 import time
 import sms
-from Pages import Settings
-
+import Settings
 
 torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)]
 
@@ -68,12 +67,12 @@ if start_button:
 
             # Case 1: User needs help
             if "help" in result.lower():
-                tele.send_telegram_alert(f"{Settings.full_name} says {Settings.result}")
+                tele.send_telegram_alert(f"{Settings.full_name} says {result}")
                 message_2.success(f"I will inform {Settings.emergency_contact_name} and ask for help")
 
             # Case 2: User is okay
             elif "okay" in result.lower():
-                tele.send_telegram_alert(f"{Settings.full_name} says {Settings.result}")
+                tele.send_telegram_alert(f"{Settings.full_name} says {result}")
                 message_2.success(f"I will inform {Settings.emergency_contact_name} and standby")
 
             else:
