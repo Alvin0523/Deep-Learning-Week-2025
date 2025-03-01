@@ -18,6 +18,48 @@ st.title("YOLOv8 Live Object Detection")
 # Sidebar Start Button
 start_button = st.sidebar.button("Start Webcam")
 
+# Sidebar Start Button
+st.sidebar.title("🔧 Settings")
+start_button = st.sidebar.button("Start Webcam")
+
+# 1️⃣ Personal Information
+full_name = st.sidebar.text_input("Full Name")
+age = st.sidebar.number_input("Age", min_value=0, max_value=120, step=1)
+
+# 2️⃣ Emergency Contact
+st.sidebar.subheader("📞 Emergency Contact")
+emergency_contact_name = st.sidebar.text_input("Contact Name")
+emergency_contact_number = st.sidebar.text_input("Phone Number")
+
+# 3️⃣ Medical Information
+st.sidebar.subheader("⚕️ Medical Information")
+blood_type = st.sidebar.selectbox("Blood Type", ["Unknown", "O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"])
+medical_conditions = st.sidebar.text_area("Existing Medical Conditions (e.g., Diabetes, Hypertension)")
+medications = st.sidebar.text_area("Current Medications (Name & Dosage)")
+allergies = st.sidebar.text_area("Allergies (Medications, Food, Environmental)")
+dnr_status = st.sidebar.radio("Do-Not-Resuscitate (DNR) Order", ["No", "Yes"])
+
+
+
+def generate_emergency_message():
+    return f"""
+🚨 **EMERGENCY ALERT** 🚨
+
+👤 **Patient:** {full_name} (Age: {age})
+🩸 Blood Type: {blood_type}
+⚕️ Medical Conditions: {medical_conditions if medical_conditions else 'None'}
+💊 Medications: {medications if medications else 'None'}
+🚨 Allergies: {allergies if allergies else 'None'}
+📜 DNR Status: {dnr_status}
+🦽
+
+📞 Emergency Contact: {emergency_contact_name} ({emergency_contact_number})
+
+🆘 Immediate action may be required!
+"""
+
+# Video frame placeholder
+
 # Video frame placeholder
 frame_placeholder = st.empty()
 
