@@ -2,7 +2,7 @@ import streamlit as st
 import cv2
 import vision
 import tele
-import whisper
+import voice
 
 admin = "Dana"
 user = "Mommy"
@@ -48,27 +48,27 @@ if start_button:
         if detected:
             detection_placeholder.success("🚨 Object Detected!")
             # asked the user if they are okay using text to speech
-            whisper.say("Hello, Are you okay?")
-            whisper.run()
-            result = whisper.listen
+            voice.say("Hello, Are you okay?")
+            voice.run()
+            result = voice.listen
             print(f"You said: {result}")
             
             # case 1: user is not okay -  help needed
             if "help" in result.lower():
-                whisper.say(f"I will inform {admin}, and ask for help")
-                whisper.run
+                voice.say(f"I will inform {admin}, and ask for help")
+                voice.run
                 tele.send_telegram_alert(user,f"{user} says {result}")
                 # insert the string matching to call for help
             
             # case 2: user is okay - no help needed
             elif "i am okay" in result.lower():
-                whisper.say(f"I will inform {admin}, and standby")
-                whisper.runAndWait()
+                voice.say(f"I will inform {admin}, and standby")
+                voice.runAndWait()
                 tele.send_telegram_alert(user,f"{user} says {result}")
                 # insert the string matching to standby
 
             else: 
-                whisper.say(f"Be careful")
+                voice.say(f"Be careful")
                    
         else:
             detection_placeholder.empty()  # Clear the placeholder if no object is detected
